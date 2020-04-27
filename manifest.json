@@ -1,0 +1,23 @@
+{
+  "name": "Semantic search",
+  "description": "This extension allows you to search web pages quicker and better by allowing you to search for a specific answer by typing the question into the search bar",
+  "version": "1.0.0",
+  "browser_action": {
+    "default_popup": "search.html",
+    "default_icon": "icons8-search-48.png"
+  },
+  "manifest_version": 2,
+  "permissions": [
+    "tabs",
+    "<all_urls>"
+  ],
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "MacCtrl+Shift+F"
+      },
+      "description": "Opens search bar"
+    }
+  }
+}
