@@ -4,42 +4,29 @@
 }
 
 html,
-body,
-.container {
+body {
   background-color: transparent;
-  width: 100%;
-  margin: 0;
-  padding: 0;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .searchBox {
   display: inline-flex;
   margin: 0;
-
   background: var(--primary-color);
   border: 1px solid rgba(0, 0, 0, 0.1);
-  height: 40px;
   /* border-radius: 40px; */
   padding: 10px;
 }
 
-.searchBox > .searchInput {
-  width: 240px;
-  padding: 0 6px;
-}
-
-.searchBox > .searchButton {
-  background: var(--secondary-color);
-  color: var(--primary-color);
-}
-
 .searchButton {
-  color: var(--secondary-color);
   float: right;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: var(--secondary-color);
+  color: var(--primary-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,10 +38,33 @@ body,
   background: none;
   outline: none;
   float: left;
-  padding: 0;
   color: var(--secondary-color);
   font-size: 16px;
   transition: 0.4s;
   line-height: 40px;
-  width: 0px;
+  width: 240px;
+  padding: 0 6px;
+}
+
+.answers {
+  justify-content: center;
+  height: 320px;
+  overflow-y: scroll;
+}
+
+/* SCROLLBAR */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: gray white;
+}
+*::-webkit-scrollbar {
+  width: 12px;
+}
+*::-webkit-scrollbar-track {
+  background: white;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 20px;
+  border: 3px solid white;
 }
