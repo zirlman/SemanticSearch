@@ -40,16 +40,16 @@ function setContent(event) {
   // TODO: Return generated answers to this array
   let bgpage = chrome.extension.getBackgroundPage();
   paragraphs = bgpage.paragraphs;
-  let answers = paragraphs;
 
   let divAnswers = document.querySelector("#answers");
   // Remove old answers
   while (divAnswers.firstChild) {
     divAnswers.removeChild(divAnswers.firstChild);
   }
+  console.log(paragraphs);
   // Add new answers
-  for (answer of answers) {
-    let card = makeCard(question + " " + answer);
+  for (let i = 0; i < paragraphs.length; i++) {
+    let card = makeCard(question + " " + paragraphs[i]);
     divAnswers.appendChild(card);
   }
 }
@@ -64,3 +64,26 @@ function onLoad() {
 }
 
 document.addEventListener("DOMContentLoaded", onLoad);
+
+// -================== TENSORFLOW ==================-
+
+import * as tf from "@tensorflow/tfjs";
+
+// Define a model for linear regression.
+const model = tf.sequential();
+model.add(tf.layers.dense({ units: 1, inputShape: [1] }));
+
+model.compile({ loss: "meanSquaredError", optimizer: "sgd" });
+
+// Generate some synthetic data for training.
+const xs = tf.tensor2d([1, 2, 3, 4], [4, 1]);
+const ys = tf.tensor2d([1, 3, 5, 7], [4, 1]);
+
+// Train the model using the data.
+model.fit(xs, ys, { epochs: 10 }).then(() => {
+  // Use the model to do inference on a data point the model hasn't seen before:
+  model.predict(tf.tensor2d([5], [1, 1])).print();
+  // Open the browser devtools to see the output
+});
+
+// -================================================-
