@@ -16,8 +16,7 @@ To install the unpacked extension in chrome, follow the [instructions here](http
 
 If it worked you should see an icon for the `SemanticSearch` Chrome extension.
 
-![install page illustration](./install.png "install page")
-
+![load extension](./load_extension.png)
 
 🔹Using the extension
 ----
