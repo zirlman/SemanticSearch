@@ -4,20 +4,28 @@
     <title>Search</title>
     <link rel="stylesheet" href="style.css" />
     <script src="search.js"></script>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <h1 id="msg">[CONTENT]</h1>
-    <div class="container">
-      <form autocomplete="off">
-        <div class="finder">
-          <div class="finder__outer">
-            <div class="finder__inner">
-              <div class="finder__icon" ref="icon"></div>
-              <input class="finder__input" type="text" name="q" />
-            </div>
-          </div>
-        </div>
-      </form>
+    <div class="searchBox">
+      <input
+        id="searchInput"
+        class="searchInput"
+        type="text"
+        name=""
+        placeholder="Search"
+        autofocus
+      />
+      <button id="searchButton" class="searchButton">
+        <i class="material-icons">
+          search
+        </i>
+      </button>
     </div>
+    <h3 id="msg">[CONTENT]</h3>
   </body>
 </html>
