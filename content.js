@@ -14,13 +14,28 @@ function printParagraphs() {
   }
 }
 
+// Send paragraphs to background script
+function sendParagraphs() {
+  let paragraphs = Array.from(document.querySelectorAll("p")).map((p) =>
+    stripHtml(p.innerHTML)
+  );
+
+  let msg = {
+    content: "paragraphs",
+    data: paragraphs,
+  };
+
+  chrome.runtime.sendMessage(msg);
+  console.log("Message sent to background script");
+}
+
 // Callback for when a message is received
-function receiver(request, sender, sendResponse) {
-  console.log("Message received: " + JSON.stringify(request));
-  if (request.content === "user clicked!") {
-    printParagraphs();
-  }
+function content_receiver(request, sender, sendResponse) {
+  console.log(
+    "[content_receiver] Message received: " + JSON.stringify(request)
+  );
+  if (request.content === "user clicked!") sendParagraphs();
 }
 
 // Listen for messages
-chrome.runtime.onMessage.addListener(receiver);
+chrome.runtime.onMessage.addListener(content_receiver);
