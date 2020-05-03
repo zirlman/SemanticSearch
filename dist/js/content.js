@@ -1,3 +1,4 @@
+
 // Remove all HTML tags inside the passed tag
 function stripHtml(tag) {
   let tmp = document.createElement("div");
@@ -14,15 +15,20 @@ function printParagraphs() {
   }
 }
 
+// Prepares the url for AJAX request
+function urlEncode(url) {
+  const key = "KEY";
+  const req_template = `https://boilerpipe-web.appspot.com/extract?url=${key}&extractor=ArticleExtractor&output=text`;
+  const encodedUrl = encodeURIComponent(url);
+  return req_template.replace(key, encodedUrl);
+}
+
 // Send paragraphs to background script
 function sendParagraphs() {
-  let paragraphs = Array.from(document.querySelectorAll("p")).map((p) =>
-    stripHtml(p.innerHTML).trim()
-  );
-
+  let url = urlEncode(document.URL);
   let msg = {
     content: "paragraphs",
-    data: paragraphs,
+    url,
   };
 
   chrome.runtime.sendMessage(msg);
