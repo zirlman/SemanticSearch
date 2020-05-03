@@ -1,0 +1,96 @@
+:root {
+  --primary-color: white;
+  --secondary-color: #2f3640;
+}
+
+html,
+body {
+  background-color: transparent;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.searchBox {
+  display: inline-flex;
+  margin: 0;
+  background: var(--primary-color);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* border-radius: 40px; */
+  padding: 10px;
+}
+
+.searchButton {
+  float: right;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+}
+
+.searchInput {
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  color: var(--secondary-color);
+  font-size: 16px;
+  transition: 0.4s;
+  line-height: 40px;
+  width: 240px;
+  padding: 0 6px;
+}
+
+.answers {
+  justify-content: center;
+  height: 320px;
+  overflow-y: scroll;
+}
+
+/* SCROLLBAR */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: gray white;
+}
+*::-webkit-scrollbar {
+  width: 12px;
+}
+*::-webkit-scrollbar-track {
+  background: white;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 20px;
+  border: 3px solid white;
+}
+
+/* Font icon */
+
+/* fallback */
+@font-face {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/materialicons/v50/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2)
+    format("woff2");
+}
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
