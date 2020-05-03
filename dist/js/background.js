@@ -24,22 +24,20 @@ async function makeRequest(method, url) {
 function extractText(url) {
   // Get extractet
   let text = "";
-  makeRequest("GET", url).then(txt => {
-    let text = txt;
+  makeRequest("GET", url).then(text => {
     console.log("text: " + text);
     // The maximum input size for the model is 512 characters 
     // We chunk the data in blocks of 512 characters each
     // Bigger input will lead to better answers because more knowledge can be extracted from the context
     const BLOCK_SIZE = 512;
-    console.log(text.length);
-    let blockNum = text.length / BLOCK_SIZE;
-    console.log(blockNum)
+    let blockNum = Math.floor(text.length / BLOCK_SIZE);
     let result = []
+    console.log(text.length)
     for (let i = 0; i <= blockNum; i++) {
       let start = i * BLOCK_SIZE;
-      let end = BLOCK_SIZE > text.length ? text.length - 1 : start + BLOCK_SIZE;
-      console.log(start, end);
-      let block = text.slice(start, end);
+      let offset = i == blockNum ? text.length - 1 - start : BLOCK_SIZE;
+      console.log(start + " " + offset + " " + (start + offset));
+      let block = text.slice(start, start + offset);
       result.push(block);
     }
     paragraphs = result;
