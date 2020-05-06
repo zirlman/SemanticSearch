@@ -25,7 +25,7 @@ function removeChildren(root) {
 
 function makeCard(text) {
   let card = document.createElement("div");
-  card.className = "card w-100";
+  card.className = "card w-100 border-0";
   let cardBody = document.createElement("div");
   cardBody.className = "card-body ";
 
@@ -47,19 +47,20 @@ function updateAnswers(question, answers) {
 
 const axios = require("axios");
 
-function getAnswers(input, question) {
-  const ID = "619202c5";
-  const URL = `http://${ID}.ngrok.io/api/t5_model`;
+function getAnswers(input) {
+  const ID = "cb622656";
+  // const URL = `http://${ID}.ngrok.io/api/qa`;
+  const URL = `http://localhost:5000/api/qa`;
   const data = { input };
 
   axios
     .post(URL, data)
     .then((response) => {
-      updateAnswers(question, response.data.answers);
+      updateAnswers(data["question"], response.data.answers);
     })
     .catch((error) => {
       console.error(error);
-      updateAnswers(question, []);
+      updateAnswers(data["question"], []);
     });
 }
 
@@ -68,22 +69,19 @@ function setContent(event) {
   const question = document.querySelector("#searchInput").value;
   // document.querySelector("#msg").innerHTML = question;
 
-  const bgpage = chrome.extension.getBackgroundPage();
-  paragraphs = bgpage.paragraphs;
-
   // Remove old answers
   let divAnswers = document.querySelector("#answers");
   removeChildren(divAnswers);
 
   // Make model input
-  let input = "question: " + question + " context: ";
-  let context = "";
-  for (let i = 0; i < paragraphs.length; i++) {
-    context = paragraphs[i];
-    // Get model output
-    let answers = getAnswers(input + context, question);
-    console.log("[INFO] RESPONSE " + i + " : " + answers);
-  }
+  const bgpage = chrome.extension.getBackgroundPage();
+  let data = {
+    question,
+    blocks: bgpage.blocks,
+  };
+
+  // Get model output
+  getAnswers(data);
 }
 
 function onLoad() {
