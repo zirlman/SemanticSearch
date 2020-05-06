@@ -1,21 +1,25 @@
-from src.controller.t5_controller import T5_Controller
 from flask import Flask, request, jsonify
+from src.controller.qa_controller import QA_Controller
 
 app = Flask(__name__)
 
 
-@app.route('/api/t5_model', methods=["GET"])
+@app.route('/api/qa', methods=["GET"])
 def index():
-    return T5_Controller.get()
+    return QA_Controller.get()
 
 
-@app.route('/api/t5_model', methods=["POST"])
+@app.route('/api/qa', methods=["POST"])
 def generate_answer():
     assert request.is_json
-    sentence = request.json.get("input")
-    response = {"answers": T5_Controller.get_answer(sentence)}
+    inputs = request.json.get("input")
+    response = {"answers": QA_Controller.get_answers(inputs)}
     return jsonify(response)
 
 
-if __name__ == '__main__':
+def main():
     app.run(debug=True)
+
+
+if __name__ == '__main__':
+    main()
