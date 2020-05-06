@@ -6,7 +6,7 @@ class T5_Controller:
 
     @staticmethod
     def get():
-        return "T5 model loaded"
+        return "T5 Controller"
 
     @staticmethod
     def get_answer(sentence):
