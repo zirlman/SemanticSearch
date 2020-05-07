@@ -3,17 +3,6 @@ import tensorflow as tf
 from transformers import pipeline
 
 
-TASK = "question-answering"
-MODELS = ["distilbert-base-cased-distilled-squad",
-          "bert-base-uncased-whole-word-masking-finetuned-squad",
-          "albert-base-v2"
-          ]
-
-
-_nlp = pipeline(TASK, model=MODELS[0],
-                framework="tf")
-
-
 def setup_logger(logger_name, log_file, level=logging.INFO):
     l = logging.getLogger(logger_name)
     formatter = logging.Formatter('%(asctime)s : %(message)s')
@@ -42,7 +31,7 @@ class QAPipeline:
               "bert-base-uncased-whole-word-masking-finetuned-squad",
               "albert-base-v2"
               ]
-    SCORE_THRESHOLD = 0.85
+    SCORE_THRESHOLD = 0.75
 
     def __init__(self, model_index=0, framework="tf"):
         '''Model index can have values in range [0,2] which are equivalent to models:
@@ -52,11 +41,8 @@ class QAPipeline:
         self.logger = create_logger(logger_name, log_file)
 
         self.model_str = self.MODELS[model_index]
-        if model_index == 0:
-            self.nlp = _nlp
-        else:
-            self.nlp = pipeline(
-                self.TASK, model=self.model_str, framework=framework)
+        self.nlp = pipeline(self.TASK, model=self.model_str,
+                            framework=framework)
 
         self.logger.info("[PIPELINE LOADED]")
 
@@ -66,11 +52,16 @@ class QAPipeline:
         blocks = inputs["blocks"]
 
         # Get best answers
-        self.logger.info("Generating answers")
+        self.logger.info("[GENERATING ANSWERS]")
         results = self.nlp(question=questions, context=blocks)
         results = {x["score"]: x["answer"]
                    for x in results if x["score"] > self.SCORE_THRESHOLD}
         results = dict(sorted(results.items(), reverse=True))
+
+        if len(results) > 0:
+            self.logger.info("[ANSWERS GENERATED]")
+        else:
+            self.logger.info("[ANSWER NOT FOUND]")
 
         # Return top three answer if possible
         answers = list(results.values())

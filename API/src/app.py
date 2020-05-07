@@ -17,8 +17,13 @@ def generate_answer():
     return jsonify(response)
 
 
+@app.before_first_request
+def init_controller():
+    QA_Controller.init()
+
+
 def main():
-    app.run(debug=True)
+    app.run(debug=True, port=33507)
 
 
 if __name__ == '__main__':

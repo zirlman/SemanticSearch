@@ -2,7 +2,12 @@ from src.pipeline.qa_pipeline import QAPipeline
 
 
 class QA_Controller:
-    _qa_pipeline = QAPipeline(model_index=0)
+
+    _qa_pipeline = None
+
+    @staticmethod
+    def init(model_index=0):
+        QA_Controller._qa_pipeline = QAPipeline(model_index=0)
 
     @staticmethod
     def get():
