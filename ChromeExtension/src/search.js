@@ -1,10 +1,15 @@
 var paragraphs;
 
+const capitalize = (s) => {
+  if (typeof s !== "string") return "";
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
 // Send message to content script
 function sendMsg(tabs) {
   let tab = tabs[0];
   let msg = {
-    content: "user clicked!",
+    content: "clicked",
   };
 
   chrome.tabs.sendMessage(tab.id, msg);
@@ -40,7 +45,7 @@ function updateAnswers(question, answers) {
   let divAnswers = document.querySelector("#answers");
   // Make answers
   for (let i = 0; i < answers.length; i++) {
-    let card = makeCard("- " + answers[i]);
+    let card = makeCard(`${i + 1}. ${capitalize(answers[i])}`);
     divAnswers.appendChild(card);
   }
 }
@@ -64,10 +69,19 @@ function getAnswers(input) {
     });
 }
 
+function prepareQuestion(rawQuestion) {
+  let question = capitalize(rawQuestion);
+  return question.charAt(question.length - 1) != "?"
+    ? question + "?"
+    : question;
+}
+
 function setContent(event) {
   event.preventDefault();
-  const question = document.querySelector("#searchInput").value;
-  // document.querySelector("#msg").innerHTML = question;
+  const question = prepareQuestion(
+    document.querySelector("#searchInput").value
+  );
+  console.log(question);
 
   // Remove old answers
   let divAnswers = document.querySelector("#answers");
