@@ -3,6 +3,9 @@ from src.controller.qa_controller import QA_Controller
 
 app = Flask(__name__)
 
+HOST = "0.0.0.0"
+PORT = 5000
+
 
 @app.route('/api/qa', methods=["GET"])
 def index():
@@ -23,7 +26,7 @@ def init_controller():
 
 
 def main():
-    app.run(debug=True, port=33507)
+    app.run(host=HOST, port=PORT)
 
 
 if __name__ == '__main__':
