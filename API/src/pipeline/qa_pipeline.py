@@ -33,6 +33,7 @@ class QAPipeline:
               "albert-base-v2"
               ]
     SCORE_THRESHOLD = 0.75
+    DEVICE = 0 if len(tf.config.list_physical_devices('GPU')) > 0 else -1
 
     def __init__(self, model_index=0, framework="tf"):
         '''Model index can have values in range [0,2] which are equivalent to models:
@@ -42,9 +43,13 @@ class QAPipeline:
         self.logger = create_logger(logger_name, log_file)
         os.chmod(log_file, mode=0o777)
 
+        def is_gpu_vailable(): return
+
         self.model_str = self.MODELS[model_index]
-        self.nlp = pipeline(self.TASK, model=self.model_str,
-                            framework=framework)
+        self.nlp = pipeline(self.TASK,
+                            model=self.model_str,
+                            framework=framework,
+                            device=self.DEVICE)
 
         self.logger.info("[PIPELINE LOADED]")
 
