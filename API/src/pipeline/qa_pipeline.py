@@ -1,3 +1,4 @@
+import os
 import logging
 import tensorflow as tf
 from transformers import pipeline
@@ -39,6 +40,7 @@ class QAPipeline:
         logger_name = self.__class__.__name__
         log_file = f"logs/{logger_name}.log"
         self.logger = create_logger(logger_name, log_file)
+        os.chmod(log_file, mode=0o777)
 
         self.model_str = self.MODELS[model_index]
         self.nlp = pipeline(self.TASK, model=self.model_str,
