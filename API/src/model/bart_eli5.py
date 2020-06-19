@@ -31,8 +31,9 @@ class BartEli5:
     ]
 
     def __init__(self, model_index=0):
-        "Model index can have values in range [0,2] which are equivalent to models: t5-small, t5-base, t5-large"
+        "Model index can have values in range [0,0] which is equivalent to yjernite/bart_eli5"
         logger_name = self.__class__.__name__
+        print(logger_name)
         log_file = f"logs/{logger_name}.log"
         self.logger = create_logger(logger_name, log_file)
 
@@ -40,8 +41,7 @@ class BartEli5:
 
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_str)
         self.logger.info("Tokenizer loaded")
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(
-            self.model_str)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(self.model_str)
         self.logger.info("Model loaded")
 
     def prepare_inputs(self, questions, max_len=64, max_a_len=360, device="cuda"):
