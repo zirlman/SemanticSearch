@@ -54,9 +54,10 @@ const axios = require("axios");
 
 function getAnswers(input) {
   const ID = "cb622656";
+  const IP = "35.246.116.206";
   // const URL = `http://${ID}.ngrok.io/api/qa`;
   // const URL = `http://localhost:5000/api/qa`;
-  const URL = "http://35.246.116.206:5000/api/qa";
+  const URL = `http://${IP}:5000/api/qa`;
 
   const data = { input };
 

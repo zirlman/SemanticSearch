@@ -3,7 +3,7 @@ from src.controller.qa_controller import QA_Controller
 
 app = Flask(__name__)
 
-HOST = "127.0.0.1"
+HOST = "0.0.0.0"
 PORT = 5000
 
 
