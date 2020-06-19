@@ -43,8 +43,6 @@ class QAPipeline:
         self.logger = create_logger(logger_name, log_file)
         os.chmod(log_file, mode=0o777)
 
-        def is_gpu_vailable(): return
-
         self.model_str = self.MODELS[model_index]
         self.nlp = pipeline(self.TASK,
                             model=self.model_str,

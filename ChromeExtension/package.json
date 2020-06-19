@@ -10,11 +10,19 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "webpack": "^4.43.0",
         "webpack-cli": "^3.3.11",
-        "webpack": "^4.43.0"
+        "webpack-node-externals": "^1.7.2"
     },
     "dependencies": {
+        "@tensorflow-models/qna": "^1.0.0",
         "@tensorflow/tfjs": "^1.7.4",
-        "axios": "^0.19.2"
+        "@tensorflow/tfjs-node": "^1.7.4",
+        "aws-sdk": "^2.678.0",
+        "axios": "^0.19.2",
+        "bindings": "^1.5.0",
+        "question-answering": "^2.0.1",
+        "request": "^2.88.2",
+        "tokenizers": "^0.6.2"
     }
 }

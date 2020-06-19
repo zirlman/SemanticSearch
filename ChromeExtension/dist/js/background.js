@@ -24,24 +24,35 @@ function extractText(url) {
   // Get extracted text
   makeRequest("GET", url).then((text) => {
     text = text
-      .replace(/(\r|\n)+(?=[A-Z])/g, ". ")
-      .replace(/(\r|\n)+/g, " ")
+      // Remove references ([1], [2][13], etc.)
       .replace(/\[\d+\]/g, "")
-      .replace("[ edit ]", "")
-      .replace(/\s+/g, " ");
-    // The maximum input size for the model is 512 characters
-    // We chunk the data in blocks of 512 characters each
-    // Bigger input will lead to better answers because more knowledge can be extracted from the context
-    const BLOCK_SIZE = 512;
-    const NUM_BLOCKS = Math.floor(text.length / BLOCK_SIZE);
-    let result = [];
-    for (let i = 0; i <= NUM_BLOCKS; i++) {
-      let start = i * BLOCK_SIZE;
-      let offset = i == NUM_BLOCKS ? text.length - 1 - start : BLOCK_SIZE;
-      let block = text.slice(start, start + offset);
-      result.push(block);
-    }
-    blocks = result;
+      // Remove edit reference
+      .replace(/\[\s?edit\s?\]/, "")
+      // Replace newline before lines which don't start with a capital letter 
+      .replace(/[\r\n](?=[^A-Z])/g, " ")
+      // Remove multiple whitespaces before full stop character
+      .replace(/[\t\f\v ]+(=?\.)/g, "")
+      // Remove titles/headings etc.
+      .replace(/(^[a-zA-Z]+$)/g, "")
+      // Replace multiple whitespaces with a single one
+      .replace(/ +/g, " ")
+      // Remove multiple newlines
+      .replace(/[\r\n]{2,}/, "");
+
+    // // The maximum input size for the model is 512 characters
+    // // We chunk the data in blocks of 512 characters each
+    // // Bigger input will lead to better answers because more knowledge can be extracted from the context
+    // const BLOCK_SIZE = 512;
+    // const NUM_BLOCKS = Math.floor(text.length / BLOCK_SIZE);
+    // let result = [];
+    // for (let i = 0; i <= NUM_BLOCKS; i++) {
+    //   let start = i * BLOCK_SIZE;
+    //   let offset = i == NUM_BLOCKS ? text.length - 1 - start : BLOCK_SIZE;
+    //   let block = text.slice(start, start + offset);
+    //   result.push(block);
+    // }
+    // blocks = result;
+    blocks = text;
     console.log("[LOADED]");
   });
 }

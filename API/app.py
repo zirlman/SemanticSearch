@@ -16,13 +16,15 @@ def index():
 def generate_answer():
     assert request.is_json
     inputs = request.json.get("input")
-    response = {"answers": QA_Controller.get_answers(inputs)}
+    question = inputs["question"]
+    context = inputs["blocks"]
+    response = {"answers": QA_Controller.get_answers(question, context)}
     return jsonify(response)
 
 
-@app.before_first_request
-def init_controller():
-    QA_Controller.init()
+# @app.before_first_request
+# def init_controller():
+#     QA_Controller.init()
 
 
 def main():

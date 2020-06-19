@@ -5,5 +5,5 @@ module.exports = {
   output: {
     filename: "./js/search.js",
     path: path.resolve(__dirname, "dist"),
-  },
+  }
 };

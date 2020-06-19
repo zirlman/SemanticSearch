@@ -55,7 +55,8 @@ const axios = require("axios");
 function getAnswers(input) {
   const ID = "cb622656";
   // const URL = `http://${ID}.ngrok.io/api/qa`;
-  const URL = `http://localhost:5000/api/qa`;
+  // const URL = `http://localhost:5000/api/qa`;
+  const URL = "http://34.105.205.14:5000/api/qa"
   const data = { input };
 
   axios
@@ -111,19 +112,30 @@ document.addEventListener("DOMContentLoaded", onLoad);
 
 // -================== TENSORFLOW ==================-
 
-// import * as tf from "@tensorflow/tfjs";
-// const tokenizer_path =
-//   "https://s3.amazonaws.com/models.huggingface.co/bert/t5-spiece.model";
-// // const model_path = "../libraries/models/t5_base_model_js/model.json";
-// const model_path = "../libraries/models/t5-small-tf_model/model.json";
-// // const model_path = "https://cdn.huggingface.co/t5-small-tf_model.h5";
+// import * as qna from '@tensorflow-models/qna';
+// const context = "Google LLC is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, search engine, cloud computing, software, and hardware. It is considered one of the Big Four technology companies, alongside Amazon, Apple, and Facebook. Google was founded in September 1998 by Larry Page and Sergey Brin while they were Ph.D. students at Stanford University in California. Together they own about 14 percent of its shares and control 56 percent of the stockholder voting power through supervoting stock. They incorporated Google as a California privately held company on September 4, 1998, in California. Google was then reincorporated in Delaware on October 22, 2002. An initial public offering (IPO) took place on August 19, 2004, and Google moved to its headquarters in Mountain View, California, nicknamed the Googleplex. In August 2015, Google announced plans to reorganize its various interests as a conglomerate called Alphabet Inc. Google is Alphabet's leading subsidiary and will continue to be the umbrella company for Alphabet's Internet interests. Sundar Pichai was appointed CEO of Google, replacing Larry Page who became the CEO of Alphabet."
+// const question = "Who is the CEO of Google?"
 
-// document.querySelector("#msg").innerText = "[LOADING TF MODEL]";
-// var model;
-// tf.loadLayersModel(model_path).then((loadedModel) => {
-//   model = loadedModel;
-//   document.querySelector("#msg").innerText = "[MODEL LOADED]";
-// });
-// console.log("After promise");
+
+
+
+// async function test() {
+//   // Load the model.
+//   const model = await qna.load();
+//   return await model.findAnswers(question, context);
+// }
+
+// const answers = test();
+// console.log(answers);
+// /**
+// [{
+//   text: "Sundar Pichai",
+//   startIndex: 1143,
+//   endIndex: 1156,
+//   score: 0.8380282521247864
+// }]
+// **/
+
+
 
 // -================================================-
