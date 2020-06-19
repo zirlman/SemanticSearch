@@ -2,9 +2,6 @@ import logging
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 import torch
 
-tokenizer = AutoTokenizer.from_pretrained('yjernite/bart_eli5')
-model = AutoModelForSeq2SeqLM.from_pretrained('yjernite/bart_eli5')
-
 
 def setup_logger(logger_name, log_file, level=logging.INFO):
     l = logging.getLogger(logger_name)
@@ -47,8 +44,8 @@ class BartEli5:
             self.model_str)
         self.logger.info("Model loaded")
 
-    def prepare_inputs(self, questions, tokenizer, max_len=64, max_a_len=360, device="cuda"):
-        q_enc = tokenizer.batch_encode_plus(
+    def prepare_inputs(self, questions, max_len=64, max_a_len=360, device="cuda"):
+        q_enc = self.tokenizer.batch_encode_plus(
             questions, max_length=max_len, return_tensors="pt", truncation=True, pad_to_max_length=True)
         q_ids, q_mask = q_enc["input_ids"].to(
             device), q_enc["attention_mask"].to(device)
@@ -59,13 +56,13 @@ class BartEli5:
         }
         return model_inputs
 
-    def qenerate(self, question_doc, qa_s2s_model, qa_s2s_tokenizer, num_answers=1, num_beams=None, min_len=64, max_len=256, do_sample=False, temp=1.0, top_p=None, top_k=None, max_input_length=512, device="cuda"):
+    def qenerate(self, question_doc, num_answers=1, num_beams=None, min_len=64, max_len=256, do_sample=False, temp=1.0, top_p=None, top_k=None, max_input_length=512, device="cuda"):
         model_inputs = self.prepare_inputs(
-            [question_doc], qa_s2s_tokenizer, max_input_length, device=device)
+            [question_doc], max_input_length, device=device)
         n_beams = num_answers if num_beams is None else max(
             num_beams, num_answers)
 
-        generated_ids = qa_s2s_model.generate(
+        generated_ids = self.model.generate(
             input_ids=model_inputs["input_ids"],
             attention_mask=model_inputs["attention_mask"],
             min_length=min_len,
@@ -90,8 +87,6 @@ class BartEli5:
 
         answer = self.qenerate(
             model_input,
-            model,
-            tokenizer,
             num_answers=num_answers,
             num_beams=n_beams,
             min_len=min_len,
