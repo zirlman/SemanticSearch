@@ -13,8 +13,12 @@ do
 	echo "Kiled ${pid}"
 done
 
-# Restart NGINX
-#sudo /etc/init.d/nginx restart
+# Stop apache2 because NGINX needs to bind on port 80
+# sudo lsof -i:80 # shows processes using the port
+sudo service apache2 stop
+echo "Apache stopped"
+# Start NGINX
+sudo /etc/init.d/nginx start
 # Start gunicorn
 gunicorn --bind 0.0.0.0:5000 app:app --daemon --reload
 echo "Gunicorn started"
