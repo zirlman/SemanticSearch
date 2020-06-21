@@ -23,7 +23,7 @@ If it worked you should see an icon for the `SemanticSearch` Chrome extension.
 Once the extension is installed, you should be able to search the webpage by pressing the SemanticSearch icon or via shortcut `CTRL+SHIFT+F`.  
 ![Usage GIF](./usage.gif)
 #### ⚠Note
-if the shortcut doesn't work, open `Keyboard shortcuts` and `activate the extension` by the mentioned shortcut
+If the shortcut doesn't work, open `Keyboard shortcuts` and `activate the extension` by typing `CTRL+SHIFT+F` in the corresponding field
 ![Keyboard shortcut](./keyboard_shortcut.png)
 
 🔹Removing the extension
