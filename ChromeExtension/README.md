@@ -2,8 +2,7 @@
 
 🔹Info
 ---
-This project creates a Chrome extension, enabling users to semantically search
-within a web page content. The extension uses pretrained models from <a href="https://huggingface.co/transformers/" target="_blank">🤗 Transformers</a> library
+This project creates a Chrome extension, enabling users to semantically search web page content. The extension uses pretrained models from <a href="https://huggingface.co/transformers/" target="_blank">🤗 Transformers</a> library
 
 To build the extension use these commands:
 
