@@ -1,6 +1,6 @@
 // Make paragraphs available to the popup script
 // Using chrome.extension.getBackgroundPage()
-window.content = [];
+window.content = null;
 
 // Returns page source
 async function makeRequest(method, url) {

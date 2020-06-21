@@ -31,6 +31,28 @@ function removeChildren(root) {
   }
 }
 
+function getLoader() {
+  let loader = document.createElement("div");
+  loader.id = "loader";
+  loader.className = "lds-ellipsis";
+  // Each div elements represents a point in the loader
+  loader.appendChild(document.createElement("div"))
+  loader.appendChild(document.createElement("div"))
+  loader.appendChild(document.createElement("div"))
+  loader.appendChild(document.createElement("div"))
+  return loader
+}
+
+function showLoader(root) {
+  removeChildren(root);
+  root.appendChild(getLoader());
+}
+
+function removeLoader() {
+  let divAnswers = document.querySelector("#answers");
+  divAnswers.removeChild(document.querySelector("#loader"));
+}
+
 function makeCard(text) {
   let card = document.createElement("div");
   card.className = "card w-100 border-0";
@@ -61,10 +83,6 @@ function toggleInput() {
   searchInput.disabled = !searchInput.disabled;
 }
 
-function toggleLoader() {
-  let loader = document.querySelector("#loader");
-  loader.style.display = loader.style.display === "none" ? "block" : "none"
-}
 
 function getAnswers(input) {
   // const ID = "cb622656";
@@ -74,16 +92,17 @@ function getAnswers(input) {
   const URL = `http://${IP}:5000/api/qa`;
 
   const data = { input };
+
   axios
     .post(URL, data)
     .then((response) => {
-      toggleLoader();
+      removeLoader();
       updateAnswers(response.data.answers);
       toggleInput();
     })
     .catch((error) => {
+      removeLoader();
       console.error(error);
-      toggleLoader();
       updateAnswers([]);
       toggleInput();
     });
@@ -105,7 +124,7 @@ function setContent(event) {
 
   // Remove old answers
   let divAnswers = document.querySelector("#answers");
-  removeChildren(divAnswers);
+  showLoader(divAnswers);
 
   // Make model input
   const bgpage = chrome.extension.getBackgroundPage();
@@ -116,7 +135,6 @@ function setContent(event) {
 
   // Get model output
   toggleInput();
-  toggleLoader();
   getAnswers(data);
 }
 
