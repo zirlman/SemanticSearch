@@ -43,6 +43,9 @@ class BartEli5:
         self.logger.info("Tokenizer loaded")
         self.model = AutoModelForSeq2SeqLM.from_pretrained(self.model_str)
         self.logger.info("Model loaded")
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.model.to(self.device)
+        self.logger.info("Model device: {}".format(self.model.device))
 
     def prepare_inputs(self, questions, max_len=64, max_a_len=360, device="cuda"):
         q_enc = self.tokenizer.batch_encode_plus(
@@ -83,8 +86,6 @@ class BartEli5:
 
     def get_answers(self, question, context, num_answers=1, sampled="beam", min_len=0, max_len=256, sampling=False, n_beams=2, top_p=0.95, temp=0.8):
         model_input = "question: {} context: {}".format(question, context)
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        print("\tCUDA: {}\n\tInput: {}".format(device, model_input[:100]))
 
         answer = self.qenerate(
             model_input,
@@ -97,6 +98,6 @@ class BartEli5:
             top_p=top_p,
             top_k=None,
             max_input_length=1024,
-            device=device)
+            device=self.device)
 
         return answer
