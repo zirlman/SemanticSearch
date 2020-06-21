@@ -17,7 +17,7 @@ def generate_answer():
     assert request.is_json
     inputs = request.json.get("input")
     question = inputs["question"]
-    context = inputs["blocks"]
+    context = inputs["content"]
     response = {"answers": QA_Controller.get_answers(question, context)}
     return jsonify(response)
 

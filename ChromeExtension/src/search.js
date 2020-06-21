@@ -1,3 +1,5 @@
+const axios = require("axios");
+
 var paragraphs;
 
 const capitalize = (s) => {
@@ -15,6 +17,7 @@ function sendMsg(tabs) {
   chrome.tabs.sendMessage(tab.id, msg);
   console.log("[INFO] Message sent to content script");
 }
+
 
 function keyUp(event) {
   if (event.key == "Enter") {
@@ -41,7 +44,7 @@ function makeCard(text) {
   return card;
 }
 
-function updateAnswers(question, answers) {
+function updateAnswers(answers) {
   let divAnswers = document.querySelector("#answers");
   // Make answers
   for (let i = 0; i < answers.length; i++) {
@@ -50,25 +53,39 @@ function updateAnswers(question, answers) {
   }
 }
 
-const axios = require("axios");
+
+function toggleInput() {
+  let searchBtn = document.querySelector("#searchButton");
+  let searchInput = document.querySelector("#searchInput");
+  searchBtn.disabled = !searchBtn.disabled;
+  searchInput.disabled = !searchInput.disabled;
+}
+
+function toggleLoader() {
+  let loader = document.querySelector("#loader");
+  loader.style.display = loader.style.display === "none" ? "block" : "none"
+}
 
 function getAnswers(input) {
-  const ID = "cb622656";
-  const IP = "35.214.46.90";
+  // const ID = "cb622656";
   // const URL = `http://${ID}.ngrok.io/api/qa`;
   // const URL = `http://localhost:5000/api/qa`;
+  const IP = "35.214.46.90";
   const URL = `http://${IP}:5000/api/qa`;
 
   const data = { input };
-
   axios
     .post(URL, data)
     .then((response) => {
-      updateAnswers(data["question"], response.data.answers);
+      toggleLoader();
+      updateAnswers(response.data.answers);
+      toggleInput();
     })
     .catch((error) => {
       console.error(error);
-      updateAnswers(data["question"], []);
+      toggleLoader();
+      updateAnswers([]);
+      toggleInput();
     });
 }
 
@@ -94,10 +111,12 @@ function setContent(event) {
   const bgpage = chrome.extension.getBackgroundPage();
   let data = {
     question,
-    blocks: bgpage.blocks,
+    content: bgpage.content,
   };
 
   // Get model output
+  toggleInput();
+  toggleLoader();
   getAnswers(data);
 }
 

@@ -1,6 +1,6 @@
 // Make paragraphs available to the popup script
 // Using chrome.extension.getBackgroundPage()
-window.blocks = [];
+window.content = [];
 
 // Returns page source
 async function makeRequest(method, url) {
@@ -39,20 +39,7 @@ function extractText(url) {
       // Remove multiple newlines
       .replace(/[\r\n]{2,}/, "");
 
-    // // The maximum input size for the model is 512 characters
-    // // We chunk the data in blocks of 512 characters each
-    // // Bigger input will lead to better answers because more knowledge can be extracted from the context
-    // const BLOCK_SIZE = 512;
-    // const NUM_BLOCKS = Math.floor(text.length / BLOCK_SIZE);
-    // let result = [];
-    // for (let i = 0; i <= NUM_BLOCKS; i++) {
-    //   let start = i * BLOCK_SIZE;
-    //   let offset = i == NUM_BLOCKS ? text.length - 1 - start : BLOCK_SIZE;
-    //   let block = text.slice(start, start + offset);
-    //   result.push(block);
-    // }
-    // blocks = result;
-    blocks = text;
+    content = text;
     console.log("[LOADED]");
   });
 }
