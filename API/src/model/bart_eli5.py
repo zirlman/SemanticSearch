@@ -73,17 +73,18 @@ class BartEli5:
             temperature=temp,
             top_k=top_k,
             top_p=top_p,
-            eos_token_id=qa_s2s_tokenizer.eos_token_id,
+            eos_token_id=self.tokenizer.eos_token_id,
             no_repeat_ngram_size=3,
             num_return_sequences=num_answers,
-            decoder_start_token_id=qa_s2s_tokenizer.bos_token_id,
+            decoder_start_token_id=self.tokenizer.bos_token_id,
         )
 
-        return [qa_s2s_tokenizer.decode(ans_ids, skip_special_tokens=True).strip() for ans_ids in generated_ids]
+        return [self.tokenizer.decode(ans_ids, skip_special_tokens=True).strip() for ans_ids in generated_ids]
 
     def get_answers(self, question, context, num_answers=1, sampled="beam", min_len=0, max_len=256, sampling=False, n_beams=2, top_p=0.95, temp=0.8):
         model_input = "question: {} context: {}".format(question, context)
         device = "cuda" if torch.cuda.is_available() else "cpu"
+        print("\tCUDA: {}\n\tInput: {}".format(device, model_input[:100]))
 
         answer = self.qenerate(
             model_input,
